@@ -10,27 +10,6 @@
  * Author URI: https://www.johnmackeydesigns.com/
  **/
 
-global $wpdb;
-function debug_txt($info)
-{
-    function debug_inner($info)
-    {
-        global $wpdb;
-        $table_name = $wpdb->prefix . 'debug';
-        $format = array('%s');
-        $wpdb->insert(
-            $table_name,
-            array(
-                'text' => $info
-            ),
-            $format
-
-        );
-    }
-
-
-    register_activation_hook(__FILE__, 'debug_inner');
-}
 
 function wp_create_database_table()
 {
@@ -38,9 +17,7 @@ function wp_create_database_table()
 
 
     $table_verse = $wpdb->prefix . 'bible_verses';
-
     $table_key = $wpdb->prefix . 'bible_key';
-
     $table_commands = $wpdb->prefix . 'bible_commands';
 
 
@@ -96,16 +73,6 @@ function insert_table_data_bible()
     $table_name = $wpdb->prefix . 'bible_verses';
     $table_name_key = $wpdb->prefix . 'bible_key';
     $table_name_commands = $wpdb->prefix . 'bible_commands';
-
-    $json_verses = file_get_contents(plugin_dir_path(__FILE__) . 't_web.json');
-    $data = json_decode($json_verses, true);
-    $data = $data['resultset']['row'];
-
-    $json_keys = file_get_contents(plugin_dir_path(__FILE__) . 'key_english.json');
-    $data_keys = json_decode($json_keys, true);
-    $data_keys = $data_keys['resultset']['keys'];
-
-
 
     $filename = plugin_dir_path(__FILE__) . 't_web.csv';
     $sql = "LOAD DATA INFILE '" . $filename . "'
